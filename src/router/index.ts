@@ -3,7 +3,7 @@
  * @Author: armin
  * @Date: 2022-01-05 10:19:30
  * @LastEditors: armin
- * @LastEditTime: 2022-01-19 14:16:04
+ * @LastEditTime: 2022-02-17 10:34:42
  */
 import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
 import Home from '../views/Home.vue'
@@ -44,6 +44,10 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/chooseTime',
         component: () => import('../views/chooseTime/index.vue')
+      },
+      {
+        path: '/chooseCity',
+        component: () => import('../views/chooseCity/index.vue')
       }
     ]
   }
