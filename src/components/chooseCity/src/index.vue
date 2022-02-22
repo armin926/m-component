@@ -3,7 +3,7 @@
  * @Author: armin
  * @Date: 2022-02-17 10:31:01
  * @LastEditors: armin
- * @LastEditTime: 2022-02-17 16:51:17
+ * @LastEditTime: 2022-02-22 13:20:16
 -->
 <template>
   <el-popover
@@ -29,12 +29,12 @@
           </el-radio-group>
         </el-col>
         <el-col :offset="2" :span="14">
-          <el-select size="small" v-model="selectValue">
+          <el-select size="small" placeholder="请搜索城市" v-model="selectValue" filterable :filter-method="filterMethod" @change="changeSelect">
             <el-option
               v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
             ></el-option>
           </el-select>
         </el-col>
@@ -46,6 +46,7 @@
             class="city-item"
             @click="clickChat(item)"
             v-for="(item, index) in Object.keys(cities)"
+            :key="index"
           >
             {{ item }}
           </div>
@@ -58,7 +59,7 @@
                 <div
                   @click="clickItem(item)"
                   class="city-name-item"
-                  v-for="(item, index) in value"
+                  v-for="item in value"
                   :key="item.id"
                 >
                   <div>{{ item.name }}</div>
@@ -106,7 +107,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue"
+import { ref, onMounted } from "vue"
 import city from "../lib/city"
 import province from "../lib/province.json"
 import { City, Province } from "./type"
@@ -123,24 +124,13 @@ let radioValue = ref<string>("按城市")
 // 下拉框的值 搜索下拉框
 let selectValue = ref<string>("")
 // 下拉框显示城市的数据
-let options = ref([
-  {
-    value: "Option1",
-    label: "Option1",
-  },
-  {
-    value: "Option2",
-    label: "Option2",
-  },
-  {
-    value: "Option3",
-    label: "Option3",
-  },
-])
+let options = ref<City[]>([])
 // 所有的城市数据
 let cities = ref(city.cities)
 // 所有省份的数据
 let provinces = ref(province)
+// 过滤城市数据
+let allCity = ref<City[]>([])
 // 点击每个城市
 let clickItem = (item: City) => {
   // 给结果赋值
@@ -164,6 +154,41 @@ let clickChat = (item: string) => {
     el.scrollIntoView()
   }
 }
+// 自定义过滤
+let filterMethod = (val: string) => {
+  let values = Object.values(cities.value).flat(2)
+  if(val === '') {
+    options.value = values
+  } else {
+    if(radioValue.value === '按城市') {
+      // 中文和拼音一起过滤
+      options.value = values.filter(item => item.name.includes(val) || item.spell.includes(val))
+    } else {
+      // 中文过滤
+      options.value = values.filter(item => item.name.includes(val))
+    }
+  }
+}
+
+// 下拉框选择
+let changeSelect = (val: number) => {
+  let city = allCity.value.find(item => item.id === val)!
+  result.value = city.name
+  if(radioValue.value === '按城市') {
+    emits('changeCity', city)
+  } else {
+    emits('changeProvince', city.name)
+  }
+  
+}
+
+onMounted(() => {
+  // 获取下拉框的城市数据
+  let values = Object.values(cities.value).flat(2)
+  allCity.value = values
+  options.value = values
+  
+})
 </script>
 
 <style lang="scss" scoped>
