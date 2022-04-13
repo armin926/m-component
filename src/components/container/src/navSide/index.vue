@@ -3,7 +3,7 @@
  * @Author: armin
  * @Date: 2022-01-05 11:23:33
  * @LastEditors: armin
- * @LastEditTime: 2022-01-19 11:21:52
+ * @LastEditTime: 2022-04-13 15:42:11
 -->
 <template>
   <m-menu :collapse="collapse" :data="data" router :default-active="$route.path"></m-menu>
@@ -68,6 +68,11 @@ let data = [
     icon: "Setting",
     name: "表单",
     index: "/form",
+  },
+  {
+    icon: "Setting",
+    name: "弹出框表单",
+    index: "/modalForm",
   },
   {
     icon: "ShoppingBag",

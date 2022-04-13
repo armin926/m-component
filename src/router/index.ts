@@ -3,7 +3,7 @@
  * @Author: armin
  * @Date: 2022-01-05 10:19:30
  * @LastEditors: armin
- * @LastEditTime: 2022-02-17 10:34:42
+ * @LastEditTime: 2022-04-13 15:41:34
  */
 import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
 import Home from '../views/Home.vue'
@@ -48,6 +48,14 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/chooseCity',
         component: () => import('../views/chooseCity/index.vue')
+      },
+      {
+        path: '/form',
+        component: () => import('../views/form/index.vue')
+      },
+      {
+        path: '/modalForm',
+        component: () => import('../views/modalForm/index.vue')
       }
     ]
   }

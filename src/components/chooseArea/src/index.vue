@@ -3,7 +3,7 @@
  * @Author: armin
  * @Date: 2022-01-05 14:35:36
  * @LastEditors: armin
- * @LastEditTime: 2022-01-05 16:32:57
+ * @LastEditTime: 2022-04-12 09:29:40
 -->
 <template>
   <div>
@@ -79,6 +79,7 @@ watch(() => province.value, val => {
   city.value = ''
   area.value = ''
   town.value = ''
+  emits('change', { province: {name: allAreas.find(item => item.code === val)!.name, code: val} })
 })
 
 // 监听选择城市
